@@ -6,7 +6,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { User } from './entity/user.entity';
 import { TaskCreatorModule } from './task-creator/task-creator.module';
-
+import { VolunteerExecutorModule } from './volunteer-executor/volunteer-executor.module';
+import { Executor } from './entity/executor.entity';
+import { Task } from './entity/task.entity';
 @Module({
   imports: [
     ConfigModule.forRoot(), // ✅ Load environment variables
@@ -18,12 +20,13 @@ import { TaskCreatorModule } from './task-creator/task-creator.module';
       password: '08060918471',
       database: 'Nammi',
       autoLoadEntities: true,
-      entities: [User],
+      entities: [User,Task,Executor],
       synchronize: true,
       logging: false,
     }),
     UserModule,
     TaskCreatorModule,
+    VolunteerExecutorModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, Get, Param, Body, Req, UseGuards } from '@nestjs/common';
 import { TaskCreatorService } from './task-creator.service';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -15,8 +15,20 @@ export class TaskCreatorController {
             body.title,
             body.description,
             body.payment,
-            body.executorsRequired,
-            body.verifierRequired
+            
+            
         );
+    }
+
+    // ✅ Get all tasks (for executors and verifiers)
+    @Get('all')
+    async getAllTasks() {
+        return this.taskCreatorService.getAllTasks();
+    }
+
+    // ✅ Get a specific task by ID
+    @Get(':id')
+    async getTaskById(@Param('id') id: number) {
+        return this.taskCreatorService.getTaskById(id);
     }
 }

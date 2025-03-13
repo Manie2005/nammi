@@ -1,4 +1,4 @@
-import { Injectable, ForbiddenException } from '@nestjs/common';
+import { Injectable, ForbiddenException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Task } from 'src/entity/task.entity';
 import { Repository } from 'typeorm';
@@ -11,7 +11,7 @@ export class TaskCreatorService {
         @InjectRepository(User) private readonly userRepository: Repository<User>,
     ) {}
 
-    async createTask(userId: number, title: string, description: string, payment: number, executorsRequired: number, verifierRequired: number) {
+    async createTask(userId: number, title: string, description: string, payment: number) {
         // Find the user by ID
         const creator = await this.userRepository.findOne({ where: { id: userId } });
         if (!creator) {
@@ -28,11 +28,28 @@ export class TaskCreatorService {
             creator,
             title,
             description,
-            payment,
-            executorsRequired,
-            verifierRequired,
+            payment
         });
 
         return this.taskRepository.save(task);
+    }
+
+    // Get all available tasks with creator & executions info
+    async getAllTasks(): Promise<Task[]> {
+        return this.taskRepository.find({
+            relations: ['creator', 'executions']
+        });
+    }
+
+    // Get a specific task by ID with creator & executions info
+    async getTaskById(taskId: number): Promise <Task> {
+        const task = await this.taskRepository.findOne({
+            where: { id: taskId },
+            relations: ['creator', 'executions'],
+        });
+        if (!task) {
+            throw new NotFoundException(`Task with ID ${taskId} not found`);
+        }
+        return task; // ✅ Ensures a return value
     }
 }

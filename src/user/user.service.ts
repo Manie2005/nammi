@@ -15,7 +15,7 @@ export class UserService {
         private readonly jwtService: JwtService
     ) {}
 
-    // Generate a random 6-digit OTP
+    // Generate random otp
     private generateOtp(): string {
         return Math.floor(100000 + Math.random() * 900000).toString();
     }
@@ -23,15 +23,15 @@ export class UserService {
     // Send OTP via email
     private async sendEmail(to: string, subject: string, text: string) {
         const transporter = nodemailer.createTransport({
-            service: 'gmail', // Change if using a different email provider
+            service: 'gmail', 
             auth: {
-                user: 'fitfuelyt@gmail.com', // Replace with your email
-                pass: 'aiha lvou hhpi lkxb',  // Use an app password for security
+                user: 'fitfuelyt@gmail.com', 
+                pass: 'aiha lvou hhpi lkxb',  
             },
         });
 
         const mailOptions = {
-            from: 'fitfuelyt@gmail.com', // Replace with your email
+            from: 'fitfuelyt@gmail.com', 
             to,
             subject,
             text,
@@ -72,7 +72,7 @@ export class UserService {
             password: hashedPassword,
             role,
             otpCode,
-            otpexpires: otpExpires,
+            otpExpires: otpExpires,
         });
 
         // Save user to the database
@@ -111,12 +111,12 @@ export class UserService {
     const { email, otpCode } = verifyOtpDto;
     const user = await this.userRepository.findOne({where:{email}});
 
-    if (!user || user.otpCode !== otpCode.toString() || new Date(user.otpexpires) < new Date()) {
+    if (!user || user.otpCode !== otpCode.toString() || new Date(user.otpExpires) < new Date()) {
       throw new BadRequestException('Invalid or expired OTP');
     }
 
     user.otpCode = undefined;
-    user.otpexpires = undefined;
+    user.otpExpires = undefined;
     user.isVerified = true;
 
     await this.userRepository.save(user);
