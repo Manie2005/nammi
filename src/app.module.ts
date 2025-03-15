@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config'; // ✅ Import ConfigModule
+import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
-import { User } from './entity/user.entity';
 import { TaskCreatorModule } from './task-creator/task-creator.module';
 import { VolunteerExecutorModule } from './volunteer-executor/volunteer-executor.module';
-import { Executor } from './entity/executor.entity';
+import { User } from './entity/user.entity';
 import { Task } from './entity/task.entity';
+import { Executor } from './entity/executor.entity';
+
 @Module({
   imports: [
     ConfigModule.forRoot(), // ✅ Load environment variables
@@ -20,11 +21,11 @@ import { Task } from './entity/task.entity';
       password: '08060918471',
       database: 'Nammi',
       autoLoadEntities: true,
-      entities: [User,Task,Executor],
+      entities: [User, Task, Executor],
       synchronize: true,
       logging: false,
     }),
-    UserModule,
+    UserModule, 
     TaskCreatorModule,
     VolunteerExecutorModule,
   ],
