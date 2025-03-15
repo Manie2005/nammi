@@ -7,13 +7,13 @@ export class Executor {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({nullable:true})
     walletAddress: string;
 
-    @Column()
+    @Column({nullable:true})
     description: string;
 
-    @Column('decimal') // Used Decimal as Float can cause approximation errors
+    @Column({nullable:true}) // Used Decimal as Float can cause approximation errors
     payment: number;
 
     // ✅ Many executors can complete the same task
@@ -24,7 +24,7 @@ export class Executor {
     // ✅ The user who executed the task (Renamed to "user" for consistency)
     @ManyToOne(() => User, (user) => user.executedTasks, { nullable: false })
     @JoinColumn({ name: 'executor_id' })
-    user: User;
+    executor: User;
 
     // ✅ Status of task completion (pending, submitted, verified)
     @Column({ type: 'enum', enum: ['pending', 'submitted', 'verified'], default: 'pending' })

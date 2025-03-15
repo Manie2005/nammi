@@ -1,6 +1,5 @@
-import { Controller, Post, Param, Req, UseGuards } from '@nestjs/common';
+import { Controller, Post, Param, Request, UseGuards } from '@nestjs/common';
 import { VolunteerExecutorService } from './volunteer-executor.service';
-import { Request } from 'express';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { JwtUser } from 'src/auth/jwt-user.interface';
 // ✅ Define a custom User type that matches JwtStrategy's return object
@@ -13,9 +12,11 @@ export class VolunteerExecutorController {
     constructor(private readonly volunteerExecutorService: VolunteerExecutorService) {}
 
     @UseGuards(JwtAuthGuard)
-    @Post('apply/:taskId')
-    async applyTask(@Param('taskId') taskId: number, @Req() req: Request & { user: JwtUser }) { // ✅ Type req.user explicitly
-        const userId = req.user.userId; // ✅ Now TypeScript knows userId exists
-        return this.volunteerExecutorService.applyTask(taskId, userId);
+    @Post('/apply/:taskId')
+    async applyForTask(@Param('taskId') taskId: number, @Request() req) {
+        console.log('🔍 Incoming Request User:', req.user); // Debug log
+    
+        return await this.volunteerExecutorService.applyTask(taskId, req.user.userId);
     }
+    
 }

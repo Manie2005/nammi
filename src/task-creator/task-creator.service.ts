@@ -8,48 +8,41 @@ import { User, UserRole } from 'src/entity/user.entity';
 export class TaskCreatorService {
     constructor(
         @InjectRepository(Task) private readonly taskRepository: Repository<Task>,
-        @InjectRepository(User) private readonly userRepository: Repository<User>,
+        @InjectRepository(User) private readonly userRepository: Repository<User>
     ) {}
 
     async createTask(userId: number, title: string, description: string, payment: number) {
-        // Find the user by ID
+        console.log(`🔍 Fetching user with ID: ${userId}`);
         const creator = await this.userRepository.findOne({ where: { id: userId } });
+
         if (!creator) {
             throw new ForbiddenException('User not found');
         }
 
-        // Ensure only TaskCreators can create tasks
+        console.log(`✅ User fetched: ID=${creator.id}, Role=${creator.role}`);
+
         if (creator.role !== UserRole.TaskCreator) {
             throw new ForbiddenException('Only TaskCreators can create tasks');
         }
 
-        // Create the task
-        const task = this.taskRepository.create({
-            creator,
-            title,
-            description,
-            payment
-        });
-
+        const task = this.taskRepository.create({ creator, title, description, payment });
         return this.taskRepository.save(task);
     }
 
-    // Get all available tasks with creator & executions info
     async getAllTasks(): Promise<Task[]> {
-        return this.taskRepository.find({
-            relations: ['creator', 'executions']
-        });
+        return this.taskRepository.find({ relations: ['creator', 'executions'] });
     }
 
-    // Get a specific task by ID with creator & executions info
-    async getTaskById(taskId: number): Promise <Task> {
+    async getTaskById(taskId: number): Promise<Task> {
         const task = await this.taskRepository.findOne({
             where: { id: taskId },
             relations: ['creator', 'executions'],
         });
+
         if (!task) {
             throw new NotFoundException(`Task with ID ${taskId} not found`);
         }
+
         return task;
     }
 }

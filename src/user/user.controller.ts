@@ -21,7 +21,7 @@ export class UserController {
   @Post('verify-otp')
   async verifyOtp(@Body() verifyOtpDto: VerifyOtpDto) {
     try {
-      return await this.userservice.verifyOtp(verifyOtpDto);
+      return await this.userservice.verifyOtp(verifyOtpDto.email, verifyOtpDto.otpCode);
     } catch (error) {
       throw new BadRequestException('Invalid or expired OTP');
     }

@@ -17,13 +17,13 @@ export class User {
     email: string;
 
     @Column({ type: 'enum', enum: UserRole })
-    role: UserRole; // User Role
+    role: UserRole;
 
     @Column({ unique: true })
-    walletAddress: string; // Wallet Address
+    walletAddress: string;
 
     @Column({ default: 0 })
-    balance: number; // $ATOM Balance
+    balance: number;
 
     @Column({ nullable: true })
     password: string;
@@ -40,15 +40,12 @@ export class User {
     @Column({ default: false })
     isVerified: boolean;
 
-    // ✅ One TaskCreator can create multiple tasks
     @OneToMany(() => Task, (task) => task.creator)
     createdTasks: Task[];
 
-    // ✅ One Executor (User) can complete multiple tasks
-    @OneToMany(() => Executor, (executor) => executor.user)
+    @OneToMany(() => Executor, (executor) => executor.executor)
     executedTasks: Executor[];
 
-    // ✅ One Verifier (User) can verify multiple completed tasks
     @OneToMany(() => Executor, (executor) => executor.verifier)
     verifiedTasks: Executor[];
 }
