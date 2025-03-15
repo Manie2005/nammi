@@ -45,7 +45,7 @@ export class User {
     createdTasks: Task[];
 
     // ✅ One Executor (User) can complete multiple tasks
-    @OneToMany(() => Executor, (executor) => executor.executor)
+    @OneToMany(() => Executor, (executor) => executor.user)
     executedTasks: Executor[];
 
     // ✅ One Verifier (User) can verify multiple completed tasks

@@ -22,5 +22,6 @@ import { ConfigModule } from '@nestjs/config'; // ✅ Import ConfigModule
   ],
   providers: [TaskCreatorService, JwtStrategy], 
   controllers: [TaskCreatorController],
+  exports:[TaskCreatorService]
 })
 export class TaskCreatorModule {}
