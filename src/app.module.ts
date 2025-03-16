@@ -23,7 +23,7 @@ import { Executor } from './entity/executor.entity';
       autoLoadEntities: true,
       entities: [User, Task, Executor],
       synchronize: true,
-      logging: false,
+      logging: true,
     }),
     UserModule, 
     TaskCreatorModule,

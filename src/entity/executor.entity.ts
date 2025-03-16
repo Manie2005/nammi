@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn,UpdateDateColumn,CreateDateColumn } from 'typeorm';
 import { User } from './user.entity';
 import { Task } from './task.entity';
 
@@ -7,13 +7,13 @@ export class Executor {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({nullable:true})
+    @Column()
     walletAddress: string;
 
-    @Column({nullable:true})
+    @Column()
     description: string;
 
-    @Column({nullable:true}) // Used Decimal as Float can cause approximation errors
+    @Column() // Used Decimal as Float can cause approximation errors
     payment: number;
 
     // ✅ Many executors can complete the same task
@@ -31,11 +31,11 @@ export class Executor {
     status: string;
 
     // ✅ When the executor submits the task
-    @Column({ type: 'timestamp', nullable: true })
+    @CreateDateColumn({ type: 'timestamp', nullable: true })//Automatically set Date
     submittedAt: Date;
 
     // ✅ When the task is verified by a verifier
-    @Column({ type: 'timestamp', nullable: true })
+    @UpdateDateColumn({ type: 'timestamp', nullable: true })//Automatically Update Date
     verifiedAt: Date;
 
     // ✅ Verifier who approved the task
