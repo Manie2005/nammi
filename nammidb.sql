@@ -1,1 +1,3 @@
-DELETE FROM public."user";
+UPDATE executor
+SET description = 'Default Description'
+WHERE description IS NULL;

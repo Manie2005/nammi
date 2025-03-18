@@ -31,7 +31,7 @@ export class User {
     @Column({ default: null })
     refreshToken?: string;
 
-    @Column({ nullable: true })
+    @Column({ nullable: true })  
     otpCode: string;
 
     @Column({ nullable: true, type: 'timestamp' })
