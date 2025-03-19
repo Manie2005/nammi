@@ -26,4 +26,5 @@ export class UserController {
       throw new BadRequestException('Invalid or expired OTP');
     }
   }
+  
 }
