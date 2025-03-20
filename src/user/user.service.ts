@@ -152,18 +152,7 @@ export class UserService {
             throw new BadRequestException('Signature verification failed');
         }
     }
-    async logout(userId: string): Promise<{ success: boolean; message: string }> {
-        const user = await this.userRepository.findOne({ where: { id: Number(userId) } });
-        if (!user) {
-            throw new BadRequestException('User not found');
-        }
-
-        // Clear the refresh token from the database
-        user.refreshToken = null;
-        await this.userRepository.save(user);
-
-        return { success: true, message: 'User logged out successfully' };
-    }
+    
 
     private async generateTokens(user: User) {
         const payload = { userId: user.id, role: user.role, walletAddress: user.walletAddress };
@@ -185,5 +174,17 @@ export class UserService {
                 walletAddress: user.walletAddress
             }
         }
+    }
+    async logout(userId: string): Promise<{ success: boolean; message: string }> {
+        const user = await this.userRepository.findOne({ where: { id: Number(userId) } });
+        if (!user) {
+            throw new BadRequestException('User not found');
+        }
+
+        // Clear the refresh token from the database
+        user.refreshToken = null;
+        await this.userRepository.save(user);
+
+        return { success: true, message: 'User logged out successfully' };
     }
 }
