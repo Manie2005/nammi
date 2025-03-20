@@ -187,4 +187,5 @@ export class UserService {
 
         return { success: true, message: 'User logged out successfully' };
     }
+    
 }
