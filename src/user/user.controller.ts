@@ -4,6 +4,7 @@ import { UserService } from './user.service';
 import { UserRole } from 'src/entity/user.entity';
 import { LoginDto } from 'src/dto/login.dto';
 import { VerifyOtpDto } from 'src/dto/verify-otp.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('user')
 export class UserController {
@@ -67,6 +68,6 @@ export class UserController {
   @Post('logout')
   @UseGuards(JwtAuthGuard)
   async logout(@Req() req) {
-      return this.userService.logout(req.user.userId);
+      return this.userservice.logout(req.user.userId);
   }
 }
