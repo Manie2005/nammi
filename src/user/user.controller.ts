@@ -64,4 +64,9 @@ export class UserController {
       throw new BadRequestException('Invalid or expired OTP');
     }
   }
+  @Post('logout')
+  @UseGuards(JwtAuthGuard)
+  async logout(@Req() req) {
+      return this.userService.logout(req.user.userId);
+  }
 }
