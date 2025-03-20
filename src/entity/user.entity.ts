@@ -34,6 +34,12 @@ export class User {
     @Column({ nullable: true })  
     otpCode: string;
 
+    @Column({ nullable: true })
+googleId: string;
+@Column({ nullable: true })
+appleId: string;
+
+
     @Column({ nullable: true, type: 'timestamp' })
     otpExpires: Date;
 
