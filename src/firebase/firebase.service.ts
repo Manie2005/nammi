@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import * as admin from 'firebase-admin';
-import * as path from 'path';
 
 @Injectable()
 export class FirebaseService {
@@ -8,11 +7,10 @@ export class FirebaseService {
 
   constructor() {
     if (!admin.apps.length) {
-      this.firebaseApp = admin.initializeApp({
-        credential: admin.credential.cert(
-            path.join(__dirname, '../secret/hackathon-fafa5-firebase-adminsdk-fbsvc-ad8c0a2103.json')
+      const firebaseConfig = JSON.parse(process.env.FIREBASE_CREDENTIALS);
 
-        ),
+      this.firebaseApp = admin.initializeApp({
+        credential: admin.credential.cert(firebaseConfig),
       });
     } else {
       this.firebaseApp = admin.app();
