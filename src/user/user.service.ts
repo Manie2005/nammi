@@ -15,21 +15,16 @@ export class UserService {
         private readonly jwtService: JwtService
     ) {}
 
-    async createuser(email: string, walletAddress: string, password: string, role: UserRole) {
+    async createuser(email: string, password: string, role: UserRole) {
         if (await this.userRepository.findOne({ where: { email } })) {
             throw new BadRequestException('This email address is already registered');
         }
 
-        if (await this.userRepository.findOne({ where: { walletAddress } })) {
-            throw new BadRequestException('This wallet address is already registered');
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 12);
+               const hashedPassword = await bcrypt.hash(password, 12);
 
         const user = this.userRepository.create({
             email,
-            walletAddress,
-            password: hashedPassword,
+                        password: hashedPassword,
             role
         });
 

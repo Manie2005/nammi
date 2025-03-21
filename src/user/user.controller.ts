@@ -12,9 +12,9 @@ export class UserController {
 
   @Post('register')
   async register(
-    @Body() body: { email?: string; walletAddress?: string; password: string; role: UserRole }
+    @Body() body: { email?: string;  password: string; role: UserRole }
   ) {
-    return this.userservice.createuser(body.email, body.walletAddress, body.password, body.role);
+    return this.userservice.createuser(body.email, body.password, body.role);
   }
 
   @Post('login')
