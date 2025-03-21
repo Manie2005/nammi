@@ -15,11 +15,11 @@ import { Executor } from './entity/executor.entity';
     ConfigModule.forRoot(), // ✅ Load environment variables
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: '08060918471',
-      database: 'Nammi',
+      host: 'bwdlwhlaeu18gdnnmsmd-postgresql.services.clever-cloud.com',
+      port: 50013,
+      username: 'uyemhu2vpkujwldy8l6o',
+      password: 'S0Gtjn7War9ZdKCtTosElkFwtFC6w5',
+      database: 'bwdlwhlaeu18gdnnmsmd',
       autoLoadEntities: true,
       entities: [User, Task, Executor],
       synchronize:false,
